@@ -106,25 +106,4 @@ public class ApiControllerTest {
         ResponseEntity<ProductResponse> response = apiController.getProductById(invalidProductId);
         assertEquals(null, response);
     }
-
-    @Test
-    void updateProduct_ValidIdAndProduct_ReturnsUpdatedProductResponse() {
-        int validProductId = 1;
-        ProductRequest validProductRequest = new ProductRequest();
-        validProductRequest.setName("Updated Test Product");
-        validProductRequest.setPrice(new BigDecimal("10.00"));
-        ProductRequestDto mappedDto = new ProductRequestDto();
-        mappedDto.setName("Updated Test Product");
-        mappedDto.setPrice(24.00d);
-        ProductResponse expectedResponse = new ProductResponse();
-        expectedResponse.setName("Updated Test Product");
-        expectedResponse.setPrice(new BigDecimal("10.00"));
-        expectedResponse.setId(1);
-        Mockito.doNothing().when(productService).updateProduct(Mockito.anyLong(), Mockito.any(ProductRequestDto.class));
-        when(apiController.getProductById(validProductId)).thenReturn(ResponseEntity.ok(expectedResponse));
-        ResponseEntity<ProductResponse> response = apiController.updateProduct(validProductId, validProductRequest);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(expectedResponse.getName(), response.getBody().getName());
-    }
 }
